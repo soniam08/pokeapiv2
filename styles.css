@@ -1,3 +1,4 @@
+
 .contenedor {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
@@ -31,23 +32,31 @@
 }
 
 body {
-    background-color: rgb(152, 229, 235);
+    background: linear-gradient(135deg, #f9f1fc 0%, #d1e7f9 35%, #b8f1e6 65%, #fff8fb 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
-    color: hotpink;
-    background: linear-gradient(90deg, #ffe0f7 0%, #fff5fa 100%);
-    border-radius: 12px;
-    box-shadow: 0 2px 12px 0 rgba(200,100,200,0.19);
-    padding: 18px 0 16px 0;
-    margin: 22px auto 28px;
-    font-size: 2.6em;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 7px #fff0fa, 1px 1px 1px #eee;
-    border-bottom: 3.5px solid #ff70c6;
-    max-width: 520px;
+    color: #9b8beb;
+    background: linear-gradient(90deg, #ffe7f8 0%, #cafdff 45%, #b6f7e3 100%);
+    border-radius: 28px;
+    border: 3px double #b3def7;
+    padding: 22px 0 18px 0;
+    margin: 36px auto 28px;
+    font-size: 2.8em;
+    letter-spacing: 5px;
+    font-weight: bold;
+    max-width: 560px;
+    box-shadow: 0 5px 26px #b2d7f299, 0 3px 0 #daecf7 inset;
+    text-shadow:
+        0 3px 16px #b6e0f9,
+        1px 1px 0 #dff8f4,
+        0 0 12px #f3fff9;
+    background-blend-mode: lighten;
 }
 
 /* --- Estilo para todos los botones principales --- */

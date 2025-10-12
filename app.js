@@ -1,94 +1,68 @@
 // Función para obtener un Pokémon por ID o nombre
 async function getPokemon(idOrName) {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${idOrName}`); //Pide los datos de un pokemon especifico (id) o por nombre a la pokeapi
-    const data = await response.json(); //cuando la funcion este lista crea un objeto (json) para trabajar con los datos en js
-    return data; //devuelve los datos
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${idOrName}`);
+    const data = await response.json();
+    return data;
 }
 
-// Crear la tarjeta del Pokémon y añadirla al contenedor usando appendChild
 function createCard(pokemon) {
-    const nombre = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1); //La inicial en mayús y el resto en minuscula
-    const imagen = pokemon.sprites.front_default;  //Extrae la imagen
+    const nombre = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+    const imagen = pokemon.sprites.front_default;
     const altura = pokemon.height / 10;
     const peso = pokemon.weight / 10;
-    const tipos = pokemon.types.map(t => t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)).join(', ');//Map crea un vector de los tipos y los separa con el join , si fuera mas de uno
-
-    // Determinar color según el primer tipo
-    let fondoColor = 'rgba(228, 186, 224, 1)'; // color por defecto
+    const tipos = pokemon.types.map(t => t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)).join(', ');
+    const pastelTipos = {
+        normal:   "#f8f3e1",
+        fire:     "#ffd7b5",
+        water:    "#bae5f9",
+        electric: "#fff1b6",
+        grass:    "#cafadf",
+        ice:      "#def1fa",
+        fighting: "#fad2c4",
+        poison:   "#e4c3fb",
+        ground:   "#ffe1aa",
+        flying:   "#e9f8ff",
+        psychic:  "#ffd3ee",
+        bug:      "#e5fcb5",
+        rock:     "#f5e1b9",
+        ghost:    "#e4defc",
+        dragon:   "#d1c2fe",
+        dark:     "#e5dbe7",
+        steel:    "#e3ecf7",
+        fairy:    "#ffd9ef"
+    };
     const tipoPrincipal = pokemon.types[0].type.name;
-
-    if (tipoPrincipal === 'normal') {
-        fondoColor = "#C6C6A7";
-    } else if (tipoPrincipal === 'fire') {
-        fondoColor = "#F5AC78";
-    } else if (tipoPrincipal === 'water') {
-        fondoColor = "#9DB7F5";
-    } else if (tipoPrincipal === 'electric') {
-        fondoColor = "#FAE078";
-    } else if (tipoPrincipal === 'grass') {
-        fondoColor = "#A7DB8D";
-    } else if (tipoPrincipal === 'ice') {
-        fondoColor = "#BCE6E6";
-    } else if (tipoPrincipal === 'fighting') {
-        fondoColor = "#D67873";
-    } else if (tipoPrincipal === 'poison') {
-        fondoColor = "#C183C1";
-    } else if (tipoPrincipal === 'ground') {
-        fondoColor = "#EBD69D";
-    } else if (tipoPrincipal === 'flying') {
-        fondoColor = "#C6B7F5";
-    } else if (tipoPrincipal === 'psychic') {
-        fondoColor = "#FA92B2";
-    } else if (tipoPrincipal === 'bug') {
-        fondoColor = "#C6D16E";
-    } else if (tipoPrincipal === 'rock') {
-        fondoColor = "#D1C17D";
-    } else if (tipoPrincipal === 'ghost') {
-        fondoColor = "#A292BC";
-    } else if (tipoPrincipal === 'dragon') {
-        fondoColor = "#A27DFA";
-    } else if (tipoPrincipal === 'dark') {
-        fondoColor = "#A29288";
-    } else if (tipoPrincipal === 'steel') {
-        fondoColor = "#D1D1E0";
-    } else if (tipoPrincipal === 'fairy') {
-        fondoColor = "#F4BDC9";
+    let fondoColor = pastelTipos[tipoPrincipal] || "#ffeaf7";
+    if (pokemon.types.length > 1) {
+        const tipoSecundario = pokemon.types[1].type.name;
+        const color2 = pastelTipos[tipoSecundario] || "#ffeaf7";
+        if (tipoSecundario !== tipoPrincipal) {
+            fondoColor = `linear-gradient(120deg, ${pastelTipos[tipoPrincipal]} 49%, ${color2} 51%)`;
+        }
     }
-
-    // Crear elementos DOM
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.backgroundColor = fondoColor;
-
+    card.style.background = fondoColor;
     const img = document.createElement('img');
     img.src = imagen;
     img.alt = nombre;
-
     const h3 = document.createElement('h3');
     h3.textContent = nombre;
-
     const pAltura = document.createElement('p');
     pAltura.textContent = `Altura: ${altura} m`;
-
     const pPeso = document.createElement('p');
     pPeso.textContent = `Peso: ${peso} kg`;
-
     const pTipo = document.createElement('p');
     pTipo.textContent = `Tipo: ${tipos}`;
-
-    // Añadir nodos al card
     card.appendChild(img);
     card.appendChild(h3);
     card.appendChild(pAltura);
     card.appendChild(pPeso);
     card.appendChild(pTipo);
-
-    // Añadir card al contenedor
     const contenedor = document.querySelector('.contenedor');
     contenedor.appendChild(card);
 }
 
-// Función para limpiar el contenedor antes de nuevos resultados
 function limpiarContenedor() {
     const contenedor = document.querySelector('.contenedor');
     while (contenedor.firstChild) {
@@ -96,7 +70,6 @@ function limpiarContenedor() {
     }
 }
 
-// Mostrar los primeros 151 Pokémon al cargar la página
 async function mostrarPrimeros151() {
     limpiarContenedor();
     const promesas = [];
@@ -109,9 +82,8 @@ async function mostrarPrimeros151() {
     });
 }
 
-// Funcionalidad del botón para cargar más Pokémon en lotes
-let inicio = 152; // Comenzar a cargar más desde el 152
-const cantidadPorLote = 10; // Cantidad de Pokémon a cargar por botón
+let inicio = 152;
+const cantidadPorLote = 10;
 
 async function mostrarLotePokemons() {
     const promesas = [];
@@ -122,10 +94,9 @@ async function mostrarLotePokemons() {
     pokemons.forEach(poke => {
         if (poke) createCard(poke);
     });
-    inicio += cantidadPorLote; // Actualiza el inicio para el siguiente lote
+    inicio += cantidadPorLote;
 }
 
-// Buscar Pokémon por nombre con manejo de errores
 async function buscarPokemonPorNombre(nombre) {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${nombre.toLowerCase()}`);
@@ -133,23 +104,14 @@ async function buscarPokemonPorNombre(nombre) {
         const data = await response.json();
         return data;
     } catch (error) {
-        return null;  // Pokémon no encontrado
+        return null;
     }
 }
 
-// Mostrar Eevee y sus evoluciones
 const evolucionesEevee = [
-    'eevee',
-    'vaporeon',
-    'jolteon',
-    'flareon',
-    'espeon',
-    'umbreon',
-    'leafeon',
-    'glaceon',
-    'sylveon'
+    'eevee', 'vaporeon', 'jolteon', 'flareon', 'espeon',
+    'umbreon', 'leafeon', 'glaceon', 'sylveon'
 ];
-
 async function mostrarEvolucionesEevee() {
     limpiarContenedor();
     const promesas = evolucionesEevee.map(nombre => getPokemon(nombre));
@@ -159,15 +121,9 @@ async function mostrarEvolucionesEevee() {
     });
 }
 
-// Mis Pokes fav
 const pokemonsFavoritos = [
-    'togepi',
-    'vulpix',
-    'bellossom',
-    'pachirisu',
-    'azurill'
+    'togepi', 'vulpix', 'bellossom', 'pachirisu', 'azurill'
 ];
-
 async function mostrarPokemonsFavoritos() {
     limpiarContenedor();
     const promesas = pokemonsFavoritos.map(nombre => getPokemon(nombre));
@@ -177,26 +133,48 @@ async function mostrarPokemonsFavoritos() {
     });
 }
 
-// Evento para botones y carga inicial
+const pokemonsGatos = [
+    52,     // Meowth
+    53,     // Persian
+    677,    // Espurr
+    678,    // Meowstic
+    431,    // Glameow
+    432,    // Purugly
+    509,    // Purrloin
+    510,    // Liepard
+    725,    // Litten
+    726,    // Torracat
+    727,    // Incineroar
+    403,    // Shinx
+    404,    // Luxio
+    405,    // Luxray
+    807,    // Zeraora (Mítico)
+    903,    
+    243,    // Raikou (Legendario)
+    791     // Solgaleo (Legendario)
+];
+async function mostrarPokemonsGatos() {
+    limpiarContenedor();
+    const promesas = pokemonsGatos.map(nombre => getPokemon(nombre));
+    const pokemons = await Promise.all(promesas);
+    pokemons.forEach(poke => {
+        if (poke) createCard(poke);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Mostrar los primeros 151 Pokémon al cargar la página
     mostrarPrimeros151();
 
-    // Botón Cargar más
     document.getElementById("boton").addEventListener("click", mostrarLotePokemons);
 
-    // Botón Buscar Pokémon
     document.getElementById("botonbusqueda").addEventListener("click", async () => {
         const input = document.getElementById("buscador");
         const nombre = input.value.trim();
-
         if (nombre === "") {
             console.log("El campo está vacío");
             return;
         }
-
         limpiarContenedor();
-
         const pokemon = await buscarPokemonPorNombre(nombre);
         if (pokemon) {
             createCard(pokemon);
@@ -206,20 +184,28 @@ document.addEventListener('DOMContentLoaded', () => {
         input.value = "";
     });
 
-    // Crear y añadir botón para Eevee y evoluciones
+    // Botón Eevee y evoluciones
     const botonBuscar = document.getElementById('botonbusqueda');
     const botonEevee = document.createElement('button');
-    botonEevee.textContent = 'Mostrar Eevee y Evoluciones';
+    botonEevee.textContent = 'Eeveelutions';
     botonEevee.className = 'boton-principal';
     botonEevee.style.marginLeft = '10px';
     botonBuscar.parentNode.insertBefore(botonEevee, botonBuscar.nextSibling);
     botonEevee.addEventListener('click', mostrarEvolucionesEevee);
 
-    // Crear y añadir botón para Pokémon favoritos
+    // Botón favoritos
     const botonFavoritos = document.createElement('button');
     botonFavoritos.textContent = 'Mis Favoritos';
     botonFavoritos.className = 'boton-principal';
     botonFavoritos.style.marginLeft = '10px';
     botonEevee.parentNode.insertBefore(botonFavoritos, botonEevee.nextSibling);
     botonFavoritos.addEventListener('click', mostrarPokemonsFavoritos);
+
+    // Botón gatos
+    const botonGatos = document.createElement('button');
+    botonGatos.textContent = 'Gatos';
+    botonGatos.className = 'boton-principal';
+    botonGatos.style.marginLeft = '10px';
+    botonFavoritos.parentNode.insertBefore(botonGatos, botonFavoritos.nextSibling);
+    botonGatos.addEventListener('click', mostrarPokemonsGatos);
 });
