@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokedex 2.0</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pokedex By Sonia</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <h1>Pokedex By Sonia</h1>
-<div class="buscador">
-  <input type="text" id="buscador" placeholder="Busca un Pokemon por nombre" />
-  <button id="botonbusqueda">Buscar</button>
-</div>
+    <div class="buscador" style="text-align:center; margin-bottom: 15px;">
+        <input type="text" id="buscador" placeholder="Busca un Pokemon por nombre" />
+        <button id="botonbusqueda" class="boton-principal">Buscar</button>
+        <!-- Los botones nuevos se añaden dinámicamente en JS -->
+    </div>
     <div class="contenedor"></div>
-    <button id="boton">Cargar más</button>
+    <button id="boton" class="boton-principal">Cargar más</button>
+
     <script src="app.js"></script>
 </body>
 </html>

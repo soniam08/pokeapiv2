@@ -7,15 +7,12 @@
     gap: 18px;
     justify-content: center;
     align-items: flex-start;
-    font-family: 'Courier New', Courier, monospace;
     width: 100%;
-    text-align: center;
-    padding: 15px;
 }
 
 .card {
-    width: 180px;           
-    height: 320px; 
+    width: 180px;
+    height: 320px;
     background-color: rgb(238, 173, 231);
     border: 2px solid mediumpurple;
     border-radius: 8px;
@@ -25,16 +22,16 @@
     flex-direction: column;
     align-items: center;
     box-shadow: 0 2px 8px grey;
+    transition: transform 0.2s ease;
 }
 
-.card:hover{
+.card:hover {
     transform: scale(1.07);
     cursor: pointer;
 }
 
-
-body{
-    background-color:rgb(152, 229, 235);
+body {
+    background-color: rgb(152, 229, 235);
 }
 
 h1 {
@@ -53,36 +50,49 @@ h1 {
     max-width: 520px;
 }
 
-#boton{
+/* --- Estilo para todos los botones principales --- */
+.boton-principal {
+    padding: 8px 24px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1em;
+    background: linear-gradient(90deg, hotpink 0%, #e99cd6 100%);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 4px 10px rgba(232, 102, 204, 0.4);
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    user-select: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+    outline-offset: 2px;
+}
+
+.boton-principal:hover {
+    background: linear-gradient(90deg, #e99cd6 0%, hotpink 100%);
+    box-shadow: 0 6px 16px rgba(232, 102, 204, 0.6);
+    transform: translateY(-2px);
+}
+
+.boton-principal:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(232, 102, 204, 0.3);
+}
+
+.boton-principal + .boton-principal {
+    margin-left: 12px;
+}
+
+/* Para el botón flotante "Cargar más" */
+#boton {
     position: fixed;
     right: 32px;
     bottom: 32px;
-    padding: 12px 36px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.2em;
-    background: hotpink;
-    color: white;
-    border: 1.5px solid black;
-    border-radius: 8px;
-    box-shadow: 0 2px 14px #e7c6e133;
+    z-index: 99;
 }
 
-#boton:hover{
-    background: #e99cd6;
-}
-
-#botonbusqueda{
-    padding: 12px 36px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.2em;
-    background: hotpink;
-    color: white;
-    border: 1.5px solid black;
-    border-radius: 8px;
-    box-shadow: 0 2px 14px #e7c6e133;
-}
-
-#buscador{
+/* Estilo del input del buscador */
+#buscador {
     padding: 10px 16px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.1em;

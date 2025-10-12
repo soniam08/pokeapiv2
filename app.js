@@ -1,8 +1,8 @@
-// Función para obtener un Pokémon por ID
-async function getPokemon(id) {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`) //Pide los datos de un pokemon especifico (id) a la pokeapi en internet
-    const data = await response.json() //cuando la funcion este lista crea un objeto (json) para trabajar con los datos en js
-    return data //devuelve los datos
+// Función para obtener un Pokémon por ID o nombre
+async function getPokemon(idOrName) {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${idOrName}`); //Pide los datos de un pokemon especifico (id) o por nombre a la pokeapi
+    const data = await response.json(); //cuando la funcion este lista crea un objeto (json) para trabajar con los datos en js
+    return data; //devuelve los datos
 }
 
 // Crear la tarjeta del Pokémon y añadirla al contenedor usando appendChild
@@ -76,7 +76,7 @@ function createCard(pokemon) {
     const pTipo = document.createElement('p');
     pTipo.textContent = `Tipo: ${tipos}`;
 
-    // Agregar nodos al card
+    // Añadir nodos al card
     card.appendChild(img);
     card.appendChild(h3);
     card.appendChild(pAltura);
@@ -95,8 +95,10 @@ function limpiarContenedor() {
         contenedor.removeChild(contenedor.firstChild);
     }
 }
+
 // Mostrar los primeros 151 Pokémon al cargar la página
 async function mostrarPrimeros151() {
+    limpiarContenedor();
     const promesas = [];
     for (let id = 1; id <= 151; id++) {
         promesas.push(getPokemon(id));
@@ -106,9 +108,6 @@ async function mostrarPrimeros151() {
         if (poke) createCard(poke);
     });
 }
-
-// Mostrar Kanto
-mostrarPrimeros151();
 
 // Funcionalidad del botón para cargar más Pokémon en lotes
 let inicio = 152; // Comenzar a cargar más desde el 152
@@ -126,15 +125,7 @@ async function mostrarLotePokemons() {
     inicio += cantidadPorLote; // Actualiza el inicio para el siguiente lote
 }
 
-document.getElementById("boton").addEventListener("click", mostrarLotePokemons);
-
-// Función para mostrar un Pokémon específico
-async function mostrarPokemon(id) {
-    const poke = await getPokemon(id);
-    if (poke) createCard(poke);
-}
-
-// Buscar Pokemon por nombre con trycatch
+// Buscar Pokémon por nombre con manejo de errores
 async function buscarPokemonPorNombre(nombre) {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${nombre.toLowerCase()}`);
@@ -146,31 +137,7 @@ async function buscarPokemonPorNombre(nombre) {
     }
 }
 
-// Evento para el botón del buscador
-document.getElementById("botonbusqueda").addEventListener("click", async () => {
-    const input = document.getElementById("buscador");
-    const nombre = input.value.trim();
-
-    if (nombre === "") { // Si está vacío, no hace nada
-        console.log("El campo está vacío");
-        return;
-    }
-
-    limpiarContenedor(); // Limpia contenedor antes de mostrar resultados nuevos
-
-    const pokemon = await buscarPokemonPorNombre(nombre);
-
-    if (pokemon) {
-        createCard(pokemon); // Si existe, muestra la tarjeta
-    } else {
-        alert("Pokémon no encontrado :c"); // Si no, muestra alerta
-    }
-
-    input.value = ""; // Limpia el input después de buscar
-});
-
-//Eeveelutions boton
-// Arreglo con los nombres de Eevee y sus evoluciones
+// Mostrar Eevee y sus evoluciones
 const evolucionesEevee = [
     'eevee',
     'vaporeon',
@@ -183,18 +150,8 @@ const evolucionesEevee = [
     'sylveon'
 ];
 
-// Función para limpiar el contenedor
-function limpiarContenedor() {
-    const contenedor = document.querySelector('.contenedor');
-    while (contenedor.firstChild) {
-        contenedor.removeChild(contenedor.firstChild);
-    }
-}
-
-// Función para mostrar las tarjetas de Eevee y evoluciones
 async function mostrarEvolucionesEevee() {
     limpiarContenedor();
-
     const promesas = evolucionesEevee.map(nombre => getPokemon(nombre));
     const pokemons = await Promise.all(promesas);
     pokemons.forEach(poke => {
@@ -202,15 +159,67 @@ async function mostrarEvolucionesEevee() {
     });
 }
 
-// Crear botón dinámicamente al lado del botón de buscar
-const botonBuscar = document.getElementById('botonbusqueda');
-const botonEevee = document.createElement('button');
-botonEevee.textContent = 'Mostrar Eevee y Evoluciones';
-botonEevee.style.marginLeft = '10px'; // Para separar visualmente los botones
-botonEevee.className = 'boton-eevee'; // Añade clase para estilo si quieres
+// Mis Pokes fav
+const pokemonsFavoritos = [
+    'togepi',
+    'vulpix',
+    'bellossom',
+    'pachirisu',
+    'azurill'
+];
 
-// Insertar el nuevo botón junto al botón de buscar
-botonBuscar.parentNode.insertBefore(botonEevee, botonBuscar.nextSibling);
+async function mostrarPokemonsFavoritos() {
+    limpiarContenedor();
+    const promesas = pokemonsFavoritos.map(nombre => getPokemon(nombre));
+    const pokemons = await Promise.all(promesas);
+    pokemons.forEach(poke => {
+        if (poke) createCard(poke);
+    });
+}
 
-// Agregar evento para mostrar Eevee y evoluciones
-botonEevee.addEventListener('click', mostrarEvolucionesEevee);
+// Evento para botones y carga inicial
+document.addEventListener('DOMContentLoaded', () => {
+    // Mostrar los primeros 151 Pokémon al cargar la página
+    mostrarPrimeros151();
+
+    // Botón Cargar más
+    document.getElementById("boton").addEventListener("click", mostrarLotePokemons);
+
+    // Botón Buscar Pokémon
+    document.getElementById("botonbusqueda").addEventListener("click", async () => {
+        const input = document.getElementById("buscador");
+        const nombre = input.value.trim();
+
+        if (nombre === "") {
+            console.log("El campo está vacío");
+            return;
+        }
+
+        limpiarContenedor();
+
+        const pokemon = await buscarPokemonPorNombre(nombre);
+        if (pokemon) {
+            createCard(pokemon);
+        } else {
+            alert("Pokémon no encontrado :c");
+        }
+        input.value = "";
+    });
+
+    // Crear y añadir botón para Eevee y evoluciones
+    const botonBuscar = document.getElementById('botonbusqueda');
+    const botonEevee = document.createElement('button');
+    botonEevee.textContent = 'Mostrar Eevee y Evoluciones';
+    botonEevee.className = 'boton-principal';
+    botonEevee.style.marginLeft = '10px';
+    botonBuscar.parentNode.insertBefore(botonEevee, botonBuscar.nextSibling);
+    botonEevee.addEventListener('click', mostrarEvolucionesEevee);
+
+    // Crear y añadir botón para Pokémon favoritos
+    const botonFavoritos = document.createElement('button');
+    botonFavoritos.textContent = 'Mis Favoritos';
+    botonFavoritos.className = 'boton-principal';
+    botonFavoritos.style.marginLeft = '10px';
+    botonEevee.parentNode.insertBefore(botonFavoritos, botonEevee.nextSibling);
+    botonFavoritos.addEventListener('click', mostrarPokemonsFavoritos);
+});
