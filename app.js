@@ -168,3 +168,49 @@ document.getElementById("botonbusqueda").addEventListener("click", async () => {
 
     input.value = ""; // Limpia el input después de buscar
 });
+
+//Eeveelutions boton
+// Arreglo con los nombres de Eevee y sus evoluciones
+const evolucionesEevee = [
+    'eevee',
+    'vaporeon',
+    'jolteon',
+    'flareon',
+    'espeon',
+    'umbreon',
+    'leafeon',
+    'glaceon',
+    'sylveon'
+];
+
+// Función para limpiar el contenedor
+function limpiarContenedor() {
+    const contenedor = document.querySelector('.contenedor');
+    while (contenedor.firstChild) {
+        contenedor.removeChild(contenedor.firstChild);
+    }
+}
+
+// Función para mostrar las tarjetas de Eevee y evoluciones
+async function mostrarEvolucionesEevee() {
+    limpiarContenedor();
+
+    const promesas = evolucionesEevee.map(nombre => getPokemon(nombre));
+    const pokemons = await Promise.all(promesas);
+    pokemons.forEach(poke => {
+        if (poke) createCard(poke);
+    });
+}
+
+// Crear botón dinámicamente al lado del botón de buscar
+const botonBuscar = document.getElementById('botonbusqueda');
+const botonEevee = document.createElement('button');
+botonEevee.textContent = 'Mostrar Eevee y Evoluciones';
+botonEevee.style.marginLeft = '10px'; // Para separar visualmente los botones
+botonEevee.className = 'boton-eevee'; // Añade clase para estilo si quieres
+
+// Insertar el nuevo botón junto al botón de buscar
+botonBuscar.parentNode.insertBefore(botonEevee, botonBuscar.nextSibling);
+
+// Agregar evento para mostrar Eevee y evoluciones
+botonEevee.addEventListener('click', mostrarEvolucionesEevee);
