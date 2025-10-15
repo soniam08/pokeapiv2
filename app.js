@@ -134,24 +134,24 @@ async function mostrarPokemonsFavoritos() {
 }
 
 const pokemonsGatos = [
-    52,     // Meowth
-    53,     // Persian
-    677,    // Espurr
-    678,    // Meowstic
-    431,    // Glameow
-    432,    // Purugly
-    509,    // Purrloin
-    510,    // Liepard
-    725,    // Litten
-    726,    // Torracat
-    727,    // Incineroar
-    403,    // Shinx
-    404,    // Luxio
-    405,    // Luxray
-    807,    // Zeraora (Mítico)
+    52,     
+    53,     
+    677,  
+    678,    
+    431,   
+    432,    
+    509,    
+    510,    
+    725,    
+    726,    
+    727,    
+    403,    
+    404,    
+    405,   
+    807,    
     903,    
-    243,    // Raikou (Legendario)
-    791     // Solgaleo (Legendario)
+    243,    
+    791    
 ];
 async function mostrarPokemonsGatos() {
     limpiarContenedor();

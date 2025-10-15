@@ -58,7 +58,20 @@ h1 {
         0 0 12px #f3fff9;
     background-blend-mode: lighten;
 }
+.titulo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.pokeball {
+    width: 60px;
+    height: 60px;
+    margin: 0; 
+}
+h1 {
+    margin: 0 8px; 
+}
 /* --- Estilo para todos los botones principales --- */
 .boton-principal {
     padding: 8px 24px;
