@@ -1,8 +1,9 @@
-
 .contenedor {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
-    padding: 15px;
+    max-width: 1170px;       
+    margin: 10px auto 14px auto; /* Más cerca de arriba */
+    padding: 40px 20px 60px 20px; /* Menos padding arriba */
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
@@ -32,14 +33,32 @@
 }
 
 body {
-    background: url('bg.jpg') no-repeat center center fixed;
+    background: url('bg.png') no-repeat center center fixed;
     background-size: cover;
     min-height: 100vh;
     margin: 0;
     padding: 0;
 }
 
+.titulo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0;
+    max-width: 700px; 
+    margin: 0 auto 8px auto; 
+}
+
+.pokeball {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+}
+
 h1 {
+    /* Sin max-width */
+    margin: 0 8px;
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
     color: #9b8beb;
@@ -47,11 +66,9 @@ h1 {
     border-radius: 28px;
     border: 3px double #b3def7;
     padding: 22px 0 18px 0;
-    margin: 36px auto 28px;
     font-size: 2.8em;
     letter-spacing: 5px;
     font-weight: bold;
-    max-width: 560px;
     box-shadow: 0 5px 26px #b2d7f299, 0 3px 0 #daecf7 inset;
     text-shadow:
         0 3px 16px #b6e0f9,
@@ -59,21 +76,13 @@ h1 {
         0 0 12px #f3fff9;
     background-blend-mode: lighten;
 }
-.titulo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.buscador {
+    text-align: center;
+    margin-bottom: 8px; /* Solo un poco de separación inferior */
+    margin-top: 0;      /* Pegado al h1 */
 }
 
-.pokeball {
-    width: 60px;
-    height: 60px;
-    margin: 0; 
-}
-h1 {
-    margin: 0 8px; 
-}
-/* --- Estilo para todos los botones principales --- */
 .boton-principal {
     padding: 8px 24px;
     font-family: 'Courier New', Courier, monospace;
@@ -126,4 +135,5 @@ h1 {
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
     width: 340px;
     margin-left: 6%;
+    margin-top: 8px;
 }
